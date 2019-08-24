@@ -21,7 +21,8 @@
         "electron-require": "^0.3.0",
         "js-yaml": "^3.9.1",
         "material-components-web": "^0.14.0",
-        "node-notifier": "^5.1.2"
+        "node-notifier": "^5.1.2",
+        "request": "^2.88.0"
     },
     "electron-require": {
         "lib": "%{app}/assets/js/lib",
@@ -150,5 +151,8 @@
                 "libtool-bin"
             ]
         }
+    },
+    "dependencies": {
+        "tar": "^4.4.10"
     }
 }
