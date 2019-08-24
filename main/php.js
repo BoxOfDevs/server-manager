@@ -116,78 +116,6 @@ function downloadPHP(cb) {
             })
         })
     })
-
-    // fs.mkdir(exports.app.phpFolder, function(){
-    //     var osName;
-    //     switch (os.platform()) {
-    //         // Windows binaries
-    //         case "win32":
-    //             exports.download("https://psm.mcpe.fun/download/PHP/getbinary.ps1",
-    //                 path.join(exports.app.phpFolder, "compile.ps1"), () => {
-    //                     snackbar("Compiling PHP...");
-    //                     var comp = spawn("PowerShell.exe",
-    //                         ["-File", path.join(exports.app.phpFolder, "compile.ps1")],
-    //                         {cwd:exports.app.phpFolder}
-    //                     );
-    //                     comp.stdout.on('data', exports.logCompile);
-    //                     comp.stderr.on('data', exports.logCompile);
-    //                     comp.on("close",(code) => {
-    //                         if(code !== 0){
-    //                             snackbar("Could not compile PHP: " + code + ". For more informations, look at " + path.join(exports.app.phpFolder, "install.log"));
-    //                         } else {
-    //                             snackbar("Finished compiling PHP!");
-    //                             exports.phpExecutable = path.join(exports.app.phpFolder, "bin", "php", "php.exe");
-    //                             cb.apply(exports.app);
-    //                         }
-    //                     })
-    //                 })
-    //             break;
-    //         // Linux and MacOS binaries
-    //         default:
-    //             exports.download("https://psm.mcpe.fun/download/PHP/compile.sh",
-    //                 path.join(exports.app.phpFolder, "compile.sh"), () => {
-    //                     snackbar("Compiling PHP...");
-    //                     var comp = spawn("bash",
-    //                         [path.join(exports.app.phpFolder, "compile.sh")],
-    //                         {cwd:exports.app.phpFolder}
-    //                     );
-    //                     comp.stdout.on('data', exports.logCompile);
-    //                     comp.stderr.on('data', exports.logCompile);
-    //                     comp.on("close",(code) => {
-    //                         if(code !== 0){
-    //                             snackbar("Could not compile PHP: " + code + ". For more informations, look at " + path.join(exports.app.phpFolder, "install.log"));
-    //                         } else {
-    //                             snackbar("Finished compiling PHP!");
-    //                             exports.phpExecutable = path.join(exports.app.phpFolder, "bin", "php7", "bin", "php");
-    //                             cb.apply(exports.app);
-    //                         }
-    //                     })
-    //                 }
-    //             )
-    //             break;
-    //     }
-    // });
-}
-
-
-/**
- * Logs compileing data
- *
- * @param {Buffer} data
- */
-var currentCmp = "";
-exports.logCompile = (data) => {
-    console.log(data.toString());
-    var cmp = /^(\[\w+\])/.exec(data.toString());
-    if(cmp && cmp[1]) {
-        currentCmp = cmp[1];
-        snackbar("Compiling PHP...<br>" + data.toString());
-    } else {
-        snackbar("Compiling PHP...<br>" + currentCmp + data.toString());
-    }
-    if(data.toString().includes("[ERROR]")) {
-        snackbar("Could not compile PHP: <br>" + data.toString() + ".<br> For more informations, look at " + path.join(exports.app.phpFolder, "install.log"));
-    }
 }
 
 /**
@@ -228,4 +156,5 @@ exports.download = function(urlStr, dest, cb) {
 function snackbar(error) {
     if (exports.app && exports.app.mainWindow) exports.app.mainWindow.webContents.executeJavaScript(`if(document.getElementById('currentThing')) document.getElementById('currentThing').innerHTML = "${error}"`);
 }
+
 exports.snackbar = snackbar;
