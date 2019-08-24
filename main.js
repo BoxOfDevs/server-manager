@@ -222,7 +222,6 @@ function define() {
     }
     if (!defined) {
         php.setApp(this2);
-        require("./main/updater.js").checkForUpdates(php, function() {
             // Defining php
             php.snackbar("Looking for php...");
             php.define(function() {
@@ -284,7 +283,6 @@ function define() {
                     slashes: true
                 }));
             });
-        });
         defined = true;
     }
 }

@@ -16,8 +16,8 @@ const {execSync} = require('child_process');
 const request = require('request');
 const tar = require('tar');
 
-// TODO: Remove hardcoded and fetch from update.pmmp.io
-const CHECK_PHP = "7.3";
+const UPDATE_API = 'https://update.pmmp.io/api?channel=stable';
+exports.UPDATE_API = UPDATE_API;
 
 /**
  * Sets main.js app exports
@@ -44,14 +44,9 @@ function define(cb) {
             exports.phpExecutable = path.join(exports.app.phpFolder, "bin", "php7", "bin", "php");
         }
         snackbar("Found PHP at " + exports.phpExecutable + "...");
-        // Updating php if needed?
-        var ver = /^PHP (\d\.\d)/.exec(execSync(exports.phpExecutable + " -v"))[1];
-        if(ver !== CHECK_PHP){
-            snackbar("Updating PHP to "+ CHECK_PHP + "...");
-            downloadPHP(cb);
-        } else {
-            cb.apply(exports.app);
-        }
+        exports.phpVersion = /^PHP (\d\.\d)/.exec(execSync(exports.phpExecutable + " -v"))[1];
+        
+        cb.apply(exports.app);
 
     } else { // No PHP
         snackbar("Downloading PHP...");
@@ -83,7 +78,7 @@ function downloadPHP(cb) {
     }
 
     // Fetch latest release
-    request("https://update.pmmp.io/api?channel=stable", (err, res) => {
+    request(UPDATE_API, (err, res) => {
         if (err) {
             return snackbar("Could not download PHP: " + err.message);
         }
@@ -112,6 +107,7 @@ function downloadPHP(cb) {
                 extract.once('finish', () => {
                     fs.unlink(dest);
                     exports.phpExecutable = path.join(exports.app.phpFolder, "bin", "php7", "bin", "php");
+                    exports.phpVersion = /^PHP (\d\.\d)/.exec(execSync(exports.phpExecutable + " -v"))[1];
                     cb.apply(exports.app);
                 })
             })
