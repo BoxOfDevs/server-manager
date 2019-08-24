@@ -111,6 +111,7 @@ function downloadPHP(cb) {
 
                 extract.once('finish', () => {
                     fs.unlink(dest);
+                    exports.phpExecutable = path.join(exports.app.phpFolder, "bin", "php7", "bin", "php");
                     cb.apply(exports.app);
                 })
             })
