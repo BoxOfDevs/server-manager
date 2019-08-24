@@ -95,37 +95,37 @@ window.enterCommand = function(event) {
 document.getElementById("commandEnter").addEventListener("keypress", window.enterCommand);
 document.getElementById("commandEnter2").addEventListener("keypress", window.enterCommand);
 var editServerVersionDialog = new mdc.dialog.MDCDialog(document.getElementById("editServerVersionDialog"));
-var editServerVersionSelect = new mdc.select.MDCSelect(document.getElementById("editServerVersionSelect"));
+// var editServerVersionSelect = new mdc.select.MDCSelect(document.getElementById("editServerVersionSelect"));
 
-// Send server interval
-setInterval(function() {
-    if (window.server) ipcRenderer.send("setServer", window.server);
-    serverF.getServer(location.hash.substr(1), define);
-    // Server dialog versions changing
-    if (!editServerVersionDialog.open) {
-        document.getElementById("editServerVersionList").innerHTML = `<li class="mdc-list-item" role="option" id="supported" aria-disabled="true">
-                Supported MCPE Version
-            </li>`;
-        document.getElementById("editServerVersionDefaultText").innerHTML = "Supported MCPE version";
-        var versions = Object.keys(JSON.parse(fs.readFileSync(path.join(ipcRenderer.sendSync("getVar", "appFolder"), "versions.json"))).pharsVersion);
-        versions.forEach(function(version) {
-            document.getElementById("editServerVersionList").innerHTML += `
-                <li class="mdc-list-item" role="option" tabindex="0">
-                    ${version}
-                </li>`;
-        });
-        editServerVersionSelect = new mdc.select.MDCSelect(document.getElementById("editServerVersionSelect"));
-    }
-}, 500);
-// Adding version changer
-document.getElementById("editServerVersionConfirm").addEventListener('click', function() {
-    if (parseFloat(editServerVersionSelect.value) <= 0.1) {
-        top.main.snackbar("Please select a valid version");
-    } else {
-        top.main.changePhar(parseFloat(editServerVersionSelect.value), window.server.name, false);
-    }
-});
-// Adding nutton to show version changinb
-document.getElementById("EditServerVersionBtn").addEventListener("click", function() {
-    editServerVersionDialog.show();
-});
+// // Send server interval
+// setInterval(function() {
+//     if (window.server) ipcRenderer.send("setServer", window.server);
+//     serverF.getServer(location.hash.substr(1), define);
+//     // Server dialog versions changing
+//     if (!editServerVersionDialog.open) {
+//         document.getElementById("editServerVersionList").innerHTML = `<li class="mdc-list-item" role="option" id="supported" aria-disabled="true">
+//                 Supported MCPE Version
+//             </li>`;
+//         document.getElementById("editServerVersionDefaultText").innerHTML = "Supported MCPE version";
+//         var versions = Object.keys(JSON.parse(fs.readFileSync(path.join(ipcRenderer.sendSync("getVar", "appFolder"), "versions.json"))).pharsVersion);
+//         versions.forEach(function(version) {
+//             document.getElementById("editServerVersionList").innerHTML += `
+//                 <li class="mdc-list-item" role="option" tabindex="0">
+//                     ${version}
+//                 </li>`;
+//         });
+//         editServerVersionSelect = new mdc.select.MDCSelect(document.getElementById("editServerVersionSelect"));
+//     }
+// }, 500);
+// // Adding version changer
+// document.getElementById("editServerVersionConfirm").addEventListener('click', function() {
+//     if (parseFloat(editServerVersionSelect.value) <= 0.1) {
+//         top.main.snackbar("Please select a valid version");
+//     } else {
+//         top.main.changePhar(parseFloat(editServerVersionSelect.value), window.server.name, false);
+//     }
+// });
+// // Adding nutton to show version changinb
+// document.getElementById("EditServerVersionBtn").addEventListener("click", function() {
+//     editServerVersionDialog.show();
+// });

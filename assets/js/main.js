@@ -203,99 +203,99 @@ exports.removeServer = function(serverName) {
 }
 
 
-/**
- * Adds/changes a phar between versions.
- * 
- * @param {Number} version
- * @param {String} serverPath
- * @param {Boolean} [serverCreation]
- */
-exports.changePhar = function(version, name, serverCreation = true) {
-    var pmmpPharDownloaded = false;
-    var PSMPharDownloaded = false;
-    var serverPath = path.join(ipcRenderer.sendSync("getVar", "appFolder"), "servers", name);
-    // Downloading PocketMine-MP.phar
-    if (!fs.existsSync(path.join(ipcRenderer.sendSync("getVar", "pharsFolder"), version + ".phar"))) {
-        var data = JSON.parse(fs.readFileSync(path.join(ipcRenderer.sendSync("getVar", "appFolder"), "versions.json")));
-        exports.download(data.pharsVersion[version], // Getting the phar for our version
-            path.join(ipcRenderer.sendSync("getVar", "pharsFolder"), version + ".phar"),
-            function(err) {
-                if (err) {
-                    snackbar("Could not download latest Jenkins phar." + os.EOL + "Are you connected to the internet?");
-                    fs_utils.rmdir(serverPath);
-                    console.error(err);
-                } else {
-                    /*fs.readFile(path.join(ipcRenderer.sendSync("getVar", "pharsFolder"), version + ".phar"), function(err, data) {
-                        if (!err) {
-                            fs.writeFile(path.join(serverPath, "PocketMine-MP.phar"), data, function(err) {
-                                if (err) {
-                                    snackbar("An error occured while creating the server.");
-                                    console.error(err);
-                                } else {
-                                    if (PSMPharDownloaded) {
-                                        snackbar(serverCreation ? "Sucessfully created server " + name + "!" : "Updated phar version to " + version + ".");
-                                        ipcRenderer.send("addServer", name);
-                                    } else {
-                                        pmmpPharDownloaded = true;
-                                    }
-                                }
-                            });
-                        } else {
-                            snackbar("An error occured while creating the server.");
-                            console.error(err);
-                        }
-                    })*/
-                    require("child_process").exec((os.platform() == "win32" ? "copy /y " : "cp ") +
-                        path.join(ipcRenderer.sendSync("getVar", "pharsFolder"), version + ".phar") + " " +
-                        path.join(serverPath, "PocketMine-MP.phar"),
-                        function(err, stdout, stderr) {
-                            if (err) {
-                                snackbar("An error occured while creating the server.");
-                                console.error(err);
-                            } else {
-                                if (PSMPharDownloaded) {
-                                    snackbar(serverCreation ? "Sucessfully created server " + name + "!" : "Updated phar version to " + version + ".");
-                                    ipcRenderer.send("addServer", name);
-                                } else {
-                                    pmmpPharDownloaded = true;
-                                }
-                            }
-                        });
-                }
-            });
-    } else {
-        require("child_process").exec((os.platform() == "win32" ? "copy /y " : "cp ") +
-            path.join(ipcRenderer.sendSync("getVar", "pharsFolder"), version + ".phar") + " " +
-            path.join(serverPath, "PocketMine-MP.phar"),
-            function(err, stdout, stderr) {
-                if (err) {
-                    snackbar("An error occured while creating the server.");
-                    console.error(err);
-                } else {
-                    if (PSMPharDownloaded) {
-                        snackbar(serverCreation ? "Sucessfully created server " + name + "!" : "Updated phar version to " + version + ".");
-                        ipcRenderer.send("addServer", name);
-                    } else {
-                        pmmpPharDownloaded = true;
-                    }
-                }
-            });
-    }
-    // Downloading PSMCore.phar plugin
-    exports.download("https://psm.mcpe.fun/download/PSMCore/" + version + ".phar", // Getting the phar for our version
-        path.join(serverPath, "plugins", "PSMCore.phar"), // Keeping the name for version changes.
-        function(err) {
-            if (err) {
-                snackbar("Could not download PSMCore." + os.EOL + "Are you connected to the internet?");
-                fs_utils.rmdir(serverPath);
-                console.error(err);
-            } else {
-                if (pmmpPharDownloaded) {
-                    snackbar(serverCreation ? "Sucessfully created server " + name + "!" : "Updated phar version to " + version + ".");
-                    ipcRenderer.send("addServer", name);
-                } else {
-                    PSMPharDownloaded = true;
-                }
-            }
-        });
-}
+// /**
+//  * Adds/changes a phar between versions.
+//  * 
+//  * @param {Number} version
+//  * @param {String} serverPath
+//  * @param {Boolean} [serverCreation]
+//  */
+// exports.changePhar = function(version, name, serverCreation = true) {
+//     var pmmpPharDownloaded = false;
+//     var PSMPharDownloaded = false;
+//     var serverPath = path.join(ipcRenderer.sendSync("getVar", "appFolder"), "servers", name);
+//     // Downloading PocketMine-MP.phar
+//     if (!fs.existsSync(path.join(ipcRenderer.sendSync("getVar", "pharsFolder"), version + ".phar"))) {
+//         var data = JSON.parse(fs.readFileSync(path.join(ipcRenderer.sendSync("getVar", "appFolder"), "versions.json")));
+//         exports.download(data.pharsVersion[version], // Getting the phar for our version
+//             path.join(ipcRenderer.sendSync("getVar", "pharsFolder"), version + ".phar"),
+//             function(err) {
+//                 if (err) {
+//                     snackbar("Could not download latest Jenkins phar." + os.EOL + "Are you connected to the internet?");
+//                     fs_utils.rmdir(serverPath);
+//                     console.error(err);
+//                 } else {
+//                     /*fs.readFile(path.join(ipcRenderer.sendSync("getVar", "pharsFolder"), version + ".phar"), function(err, data) {
+//                         if (!err) {
+//                             fs.writeFile(path.join(serverPath, "PocketMine-MP.phar"), data, function(err) {
+//                                 if (err) {
+//                                     snackbar("An error occured while creating the server.");
+//                                     console.error(err);
+//                                 } else {
+//                                     if (PSMPharDownloaded) {
+//                                         snackbar(serverCreation ? "Sucessfully created server " + name + "!" : "Updated phar version to " + version + ".");
+//                                         ipcRenderer.send("addServer", name);
+//                                     } else {
+//                                         pmmpPharDownloaded = true;
+//                                     }
+//                                 }
+//                             });
+//                         } else {
+//                             snackbar("An error occured while creating the server.");
+//                             console.error(err);
+//                         }
+//                     })*/
+//                     require("child_process").exec((os.platform() == "win32" ? "copy /y " : "cp ") +
+//                         path.join(ipcRenderer.sendSync("getVar", "pharsFolder"), version + ".phar") + " " +
+//                         path.join(serverPath, "PocketMine-MP.phar"),
+//                         function(err, stdout, stderr) {
+//                             if (err) {
+//                                 snackbar("An error occured while creating the server.");
+//                                 console.error(err);
+//                             } else {
+//                                 if (PSMPharDownloaded) {
+//                                     snackbar(serverCreation ? "Sucessfully created server " + name + "!" : "Updated phar version to " + version + ".");
+//                                     ipcRenderer.send("addServer", name);
+//                                 } else {
+//                                     pmmpPharDownloaded = true;
+//                                 }
+//                             }
+//                         });
+//                 }
+//             });
+//     } else {
+//         require("child_process").exec((os.platform() == "win32" ? "copy /y " : "cp ") +
+//             path.join(ipcRenderer.sendSync("getVar", "pharsFolder"), version + ".phar") + " " +
+//             path.join(serverPath, "PocketMine-MP.phar"),
+//             function(err, stdout, stderr) {
+//                 if (err) {
+//                     snackbar("An error occured while creating the server.");
+//                     console.error(err);
+//                 } else {
+//                     if (PSMPharDownloaded) {
+//                         snackbar(serverCreation ? "Sucessfully created server " + name + "!" : "Updated phar version to " + version + ".");
+//                         ipcRenderer.send("addServer", name);
+//                     } else {
+//                         pmmpPharDownloaded = true;
+//                     }
+//                 }
+//             });
+//     }
+//     // Downloading PSMCore.phar plugin
+//     exports.download("https://psm.mcpe.fun/download/PSMCore/" + version + ".phar", // Getting the phar for our version
+//         path.join(serverPath, "plugins", "PSMCore.phar"), // Keeping the name for version changes.
+//         function(err) {
+//             if (err) {
+//                 snackbar("Could not download PSMCore." + os.EOL + "Are you connected to the internet?");
+//                 fs_utils.rmdir(serverPath);
+//                 console.error(err);
+//             } else {
+//                 if (pmmpPharDownloaded) {
+//                     snackbar(serverCreation ? "Sucessfully created server " + name + "!" : "Updated phar version to " + version + ".");
+//                     ipcRenderer.send("addServer", name);
+//                 } else {
+//                     PSMPharDownloaded = true;
+//                 }
+//             }
+//         });
+// }

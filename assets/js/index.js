@@ -107,27 +107,6 @@ window.addEventListener("load", function() {
     var addServerOpen = document.getElementById("addServerOpen");
     var addServerDialog = document.getElementById("createServerDialog").MDCDialog;
     var addServerForm = document.getElementById("addServerForm");
-
-    /**
-     * Versions field
-     */
-    setInterval(function() {
-        if (!addServerDialog.open) {
-            document.getElementById("versionList").innerHTML = `<li class="mdc-list-item" role="option" id="supported" aria-disabled="true">
-                Supported MCPE Version
-            </li>`;
-            document.getElementById("basedText").innerHTML = "Supported MCPE version";
-            var versions = Object.keys(JSON.parse(fs.readFileSync(path.join(ipcRenderer.sendSync("getVar", "appFolder"), "versions.json"))).pharsVersion);
-            versions.forEach(function(version) {
-                document.getElementById("versionList").innerHTML += `
-                <li class="mdc-list-item" role="option" id="${version}" tabindex="0">
-                    ${version}
-                </li>`;
-            });
-            new mdc.select.MDCSelect(document.querySelector(".mdc-select"));
-        }
-    }, 1000);
-
     /**
      * Opening buttons
      */
