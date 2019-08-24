@@ -14,9 +14,6 @@
         "Manager"
     ],
     "author": "Ad5001 <mail@ad5001.eu>",
-    "contributors": [
-        "Nathaniel F. <hello@nfgamermc.com> (https://nfgamermc.com)"
-    ],
     "license": "SEE LICENSE IN LICENSE.md",
     "devDependencies": {
         "daemon-plus": "^1.1.1",
