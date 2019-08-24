@@ -17,7 +17,7 @@
     "contributors": [
         "Nathaniel F. <hello@nfgamermc.com> (https://nfgamermc.com)"
     ],
-    "license": "NTOSL (Custom) - View LICENSE.md in the root of the project",
+    "license": "SEE LICENSE IN LICENSE.md",
     "devDependencies": {
         "daemon-plus": "^1.1.1",
         "electron": "~1.6.2",
