@@ -6,7 +6,7 @@
     "scripts": {
         "start": "electron ."
     },
-    "repository": "https://github.com/pmt-mcpe-fun/ServerManager",
+    "repository": "https://github.com/BoxOfDevs/server-manager",
     "keywords": [
         "PocketMine",
         "MCPE",
@@ -53,7 +53,7 @@
                 "snap",
                 "apk"
             ],
-            "synopsis": "Manage your servers with ease !",
+            "synopsis": "Manage your servers with ease!",
             "icon": "build/linux_icons",
             "desktop": {
                 "Name": "PocketMine Server Manager",
@@ -91,7 +91,7 @@
                 "libtool",
                 "libtool-bin"
             ],
-            "summary": "Manage your servers with ease !"
+            "summary": "Manage your servers with ease!"
         },
         "deb": {
             "priority": "optional",
